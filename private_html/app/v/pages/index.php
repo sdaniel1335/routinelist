@@ -16,7 +16,7 @@ if (isset($_SESSION['routine_draft'])) {
   <?php foreach ($weeks as $week) { $first=$week['start']; $last=$week['end']; ?>
   <section class="week-section week-<?php echo $week['position']; ?>" aria-label="<?php echo $week['label']; ?>">
     <?php if ($week['position']==='past') { ?><details class="past-week"><summary>Múlt hét <span>· <?php echo $first->format('Y. m. d.').' – '.$last->format('m. d.'); ?> · Megnyitás</span></summary><?php } ?>
-    <div class="week-heading"><h2><?php echo $week['label']; ?></h2><span><?php echo $first->format('Y. m. d.').' – '.$last->format('m. d.'); ?> · <?php echo Schedule::weekNumber($first); ?>. hét (<?php echo Schedule::weekNumber($first)%2 ? 'páratlan' : 'páros'; ?>)</span></div>
+    <div class="week-heading"><h2><?php echo $week['label']; ?></h2><span><?php echo $first->format('Y. m. d.').' – '.$last->format('m. d.'); ?> · <?php echo Schedule::weekNumber($first); ?>. hét · <?php echo Schedule::cycleWeek($first); ?> hét</span></div>
     <div class="week-scroll" tabindex="0" aria-label="Heti naptár, kis képernyőn oldalra görgethető">
       <div class="week-grid">
       <?php foreach ($week['days'] as $index=>$day) { if ($day===null) { ?><div class="day day-outside"><div class="day-heading"><?php echo $weekdays[$index+1]; ?><small class="d-block mt-2">Másik év hete</small></div></div><?php continue; } $date=$day['date']; $is_today=$date->format('Y-m-d')===$today->format('Y-m-d'); ?>
@@ -71,7 +71,7 @@ if (isset($_SESSION['routine_draft'])) {
   </section>
   <section class="management-section" aria-labelledby="year-weeks-heading">
     <h2 id="year-weeks-heading" class="mb-3">Hétszámozás az év elején</h2>
-    <p class="text-secondary">Az 1. hét január 1-jén kezdődik és vasárnapig tart. Utána hétfőn indulnak a hetek. Az év utolsó hete december 31-én lezárul.</p>
+    <p class="text-secondary">Az 1. hét január 1-jén kezdődik és vasárnapig tart. Utána hétfőn indulnak a hetek. Az év utolsó hete december 31-én lezárul. Az A/B ritmus ettől függetlenül minden hétfőn vált, évváltáskor is folyamatosan. Kiindulópont: a 2026. január 1-jét tartalmazó hét A hét.</p>
     <?php for ($year=(int)$today->format('Y'); $year<=(int)$today->format('Y')+1; $year++) {
       $first=new DateTime($year.'-01-01'); $bounds=Schedule::weekBounds($first);
       $last=new DateTime(($year-1).'-12-31'); $last_bounds=Schedule::weekBounds($last);
@@ -79,8 +79,8 @@ if (isset($_SESSION['routine_draft'])) {
     ?>
       <div class="mb-3">
         <h3 class="h6"><?php echo $year; ?> · <?php echo $year===(int)$today->format('Y') ? 'Idén' : 'Következő év'; ?></h3>
-        <p class="mb-1">Az 1. hét <strong>páratlan</strong>: <strong><?php echo $first->format('Y. m. d.'); ?> (<?php echo $weekdays[(int)$first->format('N')]; ?>)</strong> – <?php echo $bounds[1]->format('Y. m. d.'); ?>.</p>
-        <p class="mb-0 text-secondary">Az előző év utolsó hete: <?php echo $last_number; ?>. hét (<?php echo $last_number%2 ? 'páratlan' : 'páros'; ?>), <?php echo $last_bounds[0]->format('Y. m. d.').' – '.$last->format('Y. m. d.'); ?>.<?php if ($last_number%2) { ?> <strong>Az évváltásnál két páratlan hét követi egymást.</strong><?php } ?></p>
+        <p class="mb-1">A január 1-jét tartalmazó 1. hét: <strong><?php echo Schedule::cycleWeek($first); ?> hét</strong>: <strong><?php echo $first->format('Y. m. d.'); ?> (<?php echo $weekdays[(int)$first->format('N')]; ?>)</strong> – <?php echo $bounds[1]->format('Y. m. d.'); ?>.</p>
+        <p class="mb-0 text-secondary">Az előző év utolsó hete: <?php echo $last_number; ?>. hét (<?php echo Schedule::cycleWeek($last); ?> hét), <?php echo $last_bounds[0]->format('Y. m. d.').' – '.$last->format('Y. m. d.'); ?>.<?php if (Schedule::cycleWeek($last)===Schedule::cycleWeek($first)) { ?> Az évhatár ugyanazt az <?php echo Schedule::cycleWeek($first); ?> hetet osztja két csonka hétre; a ritmus a következő hétfőn vált.<?php } ?></p>
       </div>
     <?php } ?>
   </section>

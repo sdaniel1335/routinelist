@@ -3,6 +3,19 @@ require_once dirname(__DIR__).'/private_html/app/c/schedule.php';
 date_default_timezone_set('Europe/Budapest');
 $count=0;
 foreach (array(
+  '2025-12-28'=>'B', '2025-12-29'=>'A', '2026-01-01'=>'A',
+  '2026-01-04'=>'A', '2026-01-05'=>'B',
+  '2026-03-29'=>'A', '2026-03-30'=>'B',
+  '2026-12-28'=>'A', '2026-12-31'=>'A', '2027-01-01'=>'A',
+  '2027-01-03'=>'A', '2027-01-04'=>'B',
+  '2028-01-01'=>'A', '2029-01-01'=>'B'
+) as $date=>$expected) {
+  if (Schedule::cycleWeek(new DateTime($date))!==$expected) {
+    fwrite(STDERR,'FAIL: A/B cycle '.$date."\n"); exit(1);
+  }
+  $count++;
+}
+foreach (array(
   array('2026-12-31',53,'2026-12-28','2026-12-31'),
   array('2027-01-01',1,'2027-01-01','2027-01-03'),
   array('2027-01-03',1,'2027-01-01','2027-01-03'),

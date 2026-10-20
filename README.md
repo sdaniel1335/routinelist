@@ -18,7 +18,7 @@ A hetek alatt lehet rutint felvenni, szerkeszteni és megerősítés után tör�
 ## Ismétlődés
 
 - Naponta: mindennap, munkanapokon vagy pihenőnapokon.
-- Hetente vagy páros/páratlan naptári hétszám szerint, a hét kiválasztott napján. Az 1. hét január 1-jén kezdődik, vasárnapig tart; utána hétfőn indulnak a hetek. Az utolsó hét december 31-én lezárul. Évváltáskor két páratlan hét is követheti egymást.
+- Hetente vagy A/B hetente, a hét kiválasztott napján. Az A/B ciklus fix kiindulópontja a 2026. január 1-jét tartalmazó hét (2025. december 29. – 2026. január 4.): ez A hét. Utána minden hétfőn vált, évváltáskor sincs újraindítás. A korábbi páratlan rutinok A, a páros rutinok B hetesként folytatódnak; az adatbázis belső odd/even kulcsai megmaradnak, nincs szükség migrációra. Az éves hétszámozás külön működik: az 1. hét január 1-jén kezdődik, az utolsó december 31-én zárul. Az idei és a következő január 1-jei hét A/B jelölése a lap alján látszik.
 - Havonta, adott napon. Ha a nap nem létezik, a hónap utolsó napja érvényes.
 - Negyedévente, az adott negyedév 1–14. hétblokkjában, opcionális hétköznappal. Az 1. hét a negyedév első 7 napja, nem az első naptári hét. A 14. blokk rövid, nem minden negyedévben létezik. Nap nélkül az egész időablak minden napján látszik.
 - Félévente, a januárban/júliusban induló félév adott hónapjában. A nap 0 értéke egész hónapot jelent.
