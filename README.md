@@ -32,3 +32,7 @@ A múlt és jövő a jelenlegi szabályok vetítése: szerkesztésük a múltbel
 ## Ellenőrzés
 
 PHP-val: `php tests/schedule.php`. Szintaxis: a projekt PHP fájljain `php -l`, JavaScript: `node --check public_html/js/app.js`.
+
+## Nyelv
+
+Az `APP_LANG` értéke a `private_html/app/config/app.php` fájlban `hu` vagy `en` lehet. A szótárak a `config/lang_hu.php` és `config/lang_en.php` fájlokban vannak, egyszerű szövegkonstansokkal: `define('LANG_HU_WEEK', 'hét');` és `define('LANG_EN_WEEK', 'week');`. Használat a kódban: `lang('WEEK')`. A `c/lang.php` csak a betöltést és az APP_LANG szerinti kiválasztást végzi. Ismeretlen nyelvkódnál angol a tartalék. A megoldás PHP 5.3-kompatibilis. A MODULE, a layout.php és a topbar.php továbbra is változatlan, az ezekbe rögzített feliratok is megmaradnak. A rutinok felhasználó által megadott neve és leírása nem fordítódik automatikusan.

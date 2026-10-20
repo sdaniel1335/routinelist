@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__ . '/lang.php';
 
 function auth_random_bytes($length)
 {
@@ -220,7 +221,7 @@ class App extends C
 
     if (!auth_csrf_valid($token)) {
       header('HTTP/1.1 400 Bad Request');
-      die('Invalid request token.');
+      die(lang('INVALID_TOKEN'));
     }
   }
 }

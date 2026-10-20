@@ -53,7 +53,7 @@ var App = {
             column.setAttribute('aria-current', 'date');
             badge = document.createElement('strong');
             badge.className = 'today-badge';
-            badge.textContent = 'MA';
+            badge.textContent = document.querySelector('.routine-page').getAttribute('data-today-label');
             column.querySelector('.day-heading').prepend(badge);
           }
         });

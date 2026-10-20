@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__ . '/lang.php';
 class Schedule
 {
   public static function cycleWeek($date) {
@@ -22,10 +23,10 @@ class Schedule
     return array($start,$end);
   }
   public static function rules() {
-    return array('workday'=>'Naponta, munkanapokon','restday'=>'Naponta, pihenőnapokon','daily'=>'Mindennap','weekly'=>'Hetente','odd'=>'A heteken (kéthetente)','even'=>'B heteken (kéthetente)','monthly'=>'Havonta','quarterly'=>'Negyedévente, adott héten','halfyear'=>'Félévente, adott hónapban','yearly'=>'Évente, adott napon','season'=>'Évente, adott évszakban');
+    return array('workday'=>lang('RULE_WORKDAY'),'restday'=>lang('RULE_RESTDAY'),'daily'=>lang('RULE_DAILY'),'weekly'=>lang('RULE_WEEKLY'),'odd'=>lang('RULE_A'),'even'=>lang('RULE_B'),'monthly'=>lang('RULE_MONTHLY'),'quarterly'=>lang('RULE_QUARTERLY'),'halfyear'=>lang('RULE_HALFYEAR'),'yearly'=>lang('RULE_YEARLY'),'season'=>lang('RULE_SEASON'));
   }
-  public static function weekdays() { return array(1=>'Hétfő',2=>'Kedd',3=>'Szerda',4=>'Csütörtök',5=>'Péntek',6=>'Szombat',7=>'Vasárnap'); }
-  public static function seasons() { return array(1=>'Tavasz (március–május)',2=>'Nyár (június–augusztus)',3=>'Ősz (szeptember–november)',4=>'Tél (december–február)'); }
+  public static function weekdays() { return array(1=>lang('MONDAY'),2=>lang('TUESDAY'),3=>lang('WEDNESDAY'),4=>lang('THURSDAY'),5=>lang('FRIDAY'),6=>lang('SATURDAY'),7=>lang('SUNDAY')); }
+  public static function seasons() { return array(1=>lang('SPRING'),2=>lang('SUMMER'),3=>lang('AUTUMN'),4=>lang('WINTER')); }
   public static function workday($date,$overrides) {
     $key=$date->format('Y-m-d');
     return isset($overrides[$key]) ? $overrides[$key] : (int)$date->format('N')<=5;
@@ -51,10 +52,10 @@ class Schedule
   public static function label($r) {
     $rules=self::rules(); $days=self::weekdays(); $seasons=self::seasons(); $label=$rules[$r['rule']];
     if (in_array($r['rule'],array('weekly','odd','even'))) { $label.=' · '.$days[$r['weekday']]; }
-    if ($r['rule']==='monthly') { $label.=' · '.$r['day_number'].'. nap'; }
-    if ($r['rule']==='quarterly') { $label.=' · '.$r['week_number'].'. hét · '.($r['weekday'] ? $days[$r['weekday']] : 'egész héten'); }
-    if ($r['rule']==='halfyear') { $label.=' · '.$r['month_number'].'. hónap · '.($r['day_number'] ? $r['day_number'].'. nap' : 'egész hónapban'); }
-    if ($r['rule']==='yearly') { $label.=' · '.$r['month_number'].'. hónap '.$r['day_number'].'. nap'; }
+    if ($r['rule']==='monthly') { $label.=' · '.sprintf(lang('NUMBER_DAY'),$r['day_number']); }
+    if ($r['rule']==='quarterly') { $label.=' · '.sprintf(lang('WEEK_NUMBER'),$r['week_number']).' · '.($r['weekday'] ? $days[$r['weekday']] : lang('WHOLE_WEEK')); }
+    if ($r['rule']==='halfyear') { $label.=' · '.sprintf(lang('NUMBER_MONTH'),$r['month_number']).' · '.($r['day_number'] ? sprintf(lang('NUMBER_DAY'),$r['day_number']) : lang('WHOLE_MONTH')); }
+    if ($r['rule']==='yearly') { $label.=' · '.sprintf(lang('NUMBER_MONTH'),$r['month_number']).' · '.sprintf(lang('NUMBER_DAY'),$r['day_number']); }
     if ($r['rule']==='season') { $label.=' · '.$seasons[$r['season']]; }
     return $label;
   }

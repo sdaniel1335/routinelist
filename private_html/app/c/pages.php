@@ -26,7 +26,7 @@ class Pages extends App
         $days[(int)$cursor->format('N')-1]=array('date'=>clone $cursor,'items'=>$items,'workday'=>Schedule::workday($cursor,$overrides));
         $cursor->modify('+1 day');
       }
-      $labels=array('past'=>'Múlt hét','current'=>'Aktuális hét','future'=>'Jövő hét');
+      $labels=array('past'=>lang('PAST_WEEK'),'current'=>lang('CURRENT_WEEK'),'future'=>lang('FUTURE_WEEK'));
       $weeks[]=array('label'=>$labels[$position],'position'=>$position,'start'=>$bounds[0],'end'=>$bounds[1],'days'=>$days);
     }
     $editing=null; $edit=isset($_GET['edit']) ? (int)$_GET['edit'] : 0;
